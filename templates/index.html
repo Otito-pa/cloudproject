@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Todo List</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+    <style>
+        .task {
+            position: relative;
+            font-size: 20px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .task-actions {
+            position: absolute;
+            right: 0;
+            top: 10px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-4 text-center">Todo List</h1>
+
+        <form method="POST" class="mb-3 d-flex justify-content-center">
+            <input
+                type="text"
+                name="content"
+                placeholder="Enter a task..."
+                class="form-control me-2"
+                required
+            >
+
+            <input type="submit" value="Add" class="btn btn-primary">
+        </form>
+
+        <ul class="list-unstyled">
+            {% for item in items %}
+                <li class="task">
+                    {% if item.completed %}
+                        <del>{{ item.content }}</del>
+                    {% else %}
+                        {{ item.content }}
+                    {% endif %}
+
+                    <div class="task-actions">
+                        {% if not item.completed %}
+                            <a href="{{ url_for('complete', item_id=item.id) }}">[✓]</a>
+                        {% endif %}
+
+                        <a href="{{ url_for('delete', item_id=item.id) }}">[X]</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
